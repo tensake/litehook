@@ -4,10 +4,10 @@ use axum::{
     http::StatusCode,
     routing::{delete, get, post, put},
 };
+use axum_embed::ServeEmbed;
+use rust_embed::RustEmbed;
 use std::sync::Arc;
 use tower_http::cors::{Any, CorsLayer};
-use rust_embed::RustEmbed;
-use axum_embed::ServeEmbed;
 
 use crate::Server;
 use crate::config::EnvConfig;
