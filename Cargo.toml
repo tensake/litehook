@@ -6,6 +6,7 @@ edition = "2024"
 
 [dependencies]
 sqlx = { version = "0.7", features = ["sqlite", "runtime-tokio-rustls", "macros", "json"] }
+tdlib-rs = { version = "1.3.0", features = ["download-tdlib"] }
 tokio = { version = "1.49.0", features = ["full"] }
 reqwest = { version = "0.13", features = ["json", "socks"] }
 serde = { version = "1.0.228", features = ["derive"] }
@@ -15,6 +16,8 @@ uuid = { version = "1.22.0", features = ["v4"] }
 html-to-markdown-rs = "2"
 axum = "0.8.8"
 inventory = "0.3.22"
+rust-embed = "8.11"
+axum-embed = "0.1"
 schemars = "0.8"
 rand = "0.10.0"
 url = "2.5.8"
@@ -26,4 +29,3 @@ anyhow = "1.0"
 tracing = "0.1.44"
 dotenvy = "0.15.7"
 envy = "0.4.2"
-tdlib-rs = { version = "1.3.0", features = ["download-tdlib"] }

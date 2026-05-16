@@ -6,12 +6,17 @@ use axum::{
 };
 use std::sync::Arc;
 use tower_http::cors::{Any, CorsLayer};
-use tower_http::services::ServeDir;
+use rust_embed::RustEmbed;
+use axum_embed::ServeEmbed;
 
 use crate::Server;
 use crate::config::EnvConfig;
 use crate::model::{Health, Notification};
 use crate::sources::{SourceConfig, SourceInfo};
+
+#[derive(RustEmbed, Clone)]
+#[folder = "static/"]
+struct Assets;
 
 /// # Web API and dashboard for managing [Server] sources.
 ///
@@ -65,7 +70,7 @@ impl Api {
             .route("/notifications", get(get_notifications))
             .route("/notifications/{id}", post(reply_notification))
             .route("/health", get(health))
-            .fallback_service(ServeDir::new("static"))
+            .fallback_service(ServeEmbed::<Assets>::new())
             .layer(cors)
             .with_state(Arc::clone(&server));
         Ok(Self {
