@@ -4,6 +4,7 @@
 [![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=fff)](https://hub.docker.com/r/kitfc/litehook)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/tensake/litehook/test.yml)](https://github.com/tensake/litehook/actions)
 [![Release](https://img.shields.io/github/v/release/tensake/litehook)](https://github.com/tensake/litehook/releases)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/tensake/litehook)
 
 Litehook is a self-hosted social media monitoring tool and a webhook server. Supports public and private channels or even DMs if you use a self-bot. It has support for SOCKS proxies, Docker deployment, has HTTP API and includes a lightweight web dashboard.
 
@@ -27,10 +28,8 @@ cd litehook
 docker compose up -d
 ```
 
-If you want to build the binary from source, see [build](#build) section.
-
 > [!TIP]
-> After that use the dashboard at <http://localhost:4101/> to configure the sources. Make sure you have the `static` folder in the same directory as the litehook binary.
+> Open <http://localhost:4101/> to configure litehook.
 
 ## How it works
 
