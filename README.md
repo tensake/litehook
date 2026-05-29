@@ -1,8 +1,13 @@
-# ![Litehook Thumbnail](https://10ku.net/litehook/thumbnail.png)
+# Litehook
 
-## Overview
+[![Rust](https://img.shields.io/badge/Rust-%23000000.svg?e&logo=rust&logoColor=white)](https://www.rust-lang.org/)
+[![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=fff)](https://hub.docker.com/r/kitfc/litehook)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/tensake/litehook/test.yml)](https://github.com/tensake/litehook/actions)
+[![Release](https://img.shields.io/github/v/release/tensake/litehook)](https://github.com/tensake/litehook/releases)
 
-Litehook is a self-hosted social media monitoring tool and webhook server. Supports public channels or private channels and even DMs if you use a self-bot. It has support for SOCKS proxies, Docker deployment, and includes a lightweight web dashboard.
+Litehook is a self-hosted social media monitoring tool and a webhook server. Supports public and private channels or even DMs if you use a self-bot. It has support for SOCKS proxies, Docker deployment, has HTTP API and includes a lightweight web dashboard.
+
+![Litehook Thumbnail](https://10ku.net/litehook/thumbnail.png)
 
 ![Dashboard Screenshot](https://10ku.net/litehook/demo/dashboard-v3.0.png)
 
