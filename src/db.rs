@@ -75,7 +75,7 @@ impl Db {
     /// Insert a post into the database
     pub async fn insert_post(&self, post: &Post) -> anyhow::Result<()> {
         sqlx::query(
-            "INSERT OR REPLACE INTO posts 
+            "INSERT OR REPLACE INTO posts
             (id, author, text, media, reactions, views, date)
             VALUES (?, ?, ?, ?, ?, ?, ?)",
         )
@@ -95,7 +95,7 @@ impl Db {
     /// Select a post from the database
     pub async fn get_posts(&self, id: &str) -> anyhow::Result<Option<Post>> {
         let row: Option<PostRow> = sqlx::query_as(
-            "SELECT id, author, text, media, reactions, views, date 
+            "SELECT id, author, text, media, reactions, views, date
             FROM posts WHERE id = ?",
         )
         .bind(id)

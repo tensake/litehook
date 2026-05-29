@@ -1,0 +1,42 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup QEMU
+        uses: docker/setup-qemu-action@v4
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Build binaries using Docker Buildx
+        run: |
+          docker buildx build \
+            --platform linux/amd64,linux/arm64 \
+            --target export \
+            -o type=local,dest=./output \
+            .
+
+      - name: Collect binaries
+        run: |
+          cp ./output/linux_amd64/litehook litehook-x86_64-linux
+          cp ./output/linux_arm64/litehook litehook-aarch64-linux
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v3
+        with:
+          files: |
+            litehook-x86_64-linux
+            litehook-aarch64-linux
+          generate_release_notes: true

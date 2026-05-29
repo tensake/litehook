@@ -1,3 +1,4 @@
+use crate::Server;
 use axum::{
     Json, Router,
     extract::{Path, State},
@@ -5,11 +6,11 @@ use axum::{
     routing::{delete, get, post, put},
 };
 use axum_embed::ServeEmbed;
+
 use rust_embed::RustEmbed;
 use std::sync::Arc;
 use tower_http::cors::{Any, CorsLayer};
 
-use crate::Server;
 use crate::config::EnvConfig;
 use crate::model::{Health, Notification};
 use crate::sources::{SourceConfig, SourceInfo};

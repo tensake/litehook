@@ -34,3 +34,7 @@ FROM cgr.dev/chainguard/wolfi-base
 RUN apk add --no-cache libssl3 libstdc++ zlib
 COPY --from=builder /litehook-out /litehook
 ENTRYPOINT ["/litehook"]
+
+# Export binary
+FROM scratch AS export
+COPY --from=builder /litehook-out /litehook
