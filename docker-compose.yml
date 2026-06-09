@@ -7,7 +7,6 @@ services:
       - "4101:4101"
     volumes:
       - ./data:/data:rw
-      - ./static:/static:ro
     env_file:
       - .env
     restart: unless-stopped

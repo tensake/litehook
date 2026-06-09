@@ -27,14 +27,24 @@ COPY . .
 RUN xx-cargo build --release --target-dir ./build && \
     xx-verify ./build/$(xx-cargo --print-target-triple)/release/litehook && \
     llvm-strip ./build/$(xx-cargo --print-target-triple)/release/litehook && \
-    cp ./build/$(xx-cargo --print-target-triple)/release/litehook /litehook-out
-
-# Runtime stage
-FROM cgr.dev/chainguard/wolfi-base
-RUN apk add --no-cache libssl3 libstdc++ zlib
-COPY --from=builder /litehook-out /litehook
-ENTRYPOINT ["/litehook"]
+    cp ./build/$(xx-cargo --print-target-triple)/release/litehook /litehook-out && \
+    # Copy tdjson shared library to /usr/local/lib
+    find ./build/$(xx-cargo --print-target-triple)/release/build -name "libtdjson.so.*" -exec cp {} /usr/local/lib/ \;
 
 # Export binary
 FROM scratch AS export
 COPY --from=builder /litehook-out /litehook
+
+# Runtime stage
+FROM debian:trixie-slim
+RUN apt-get update && apt-get install -y \
+    ca-certificates \
+    libssl3 \
+    libstdc++6 \
+    libc++1 \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY --from=builder /litehook-out /litehook
+COPY --from=builder /usr/local/lib/libtdjson.so.* /usr/local/lib/
+RUN ldconfig
+ENTRYPOINT ["/litehook"]
