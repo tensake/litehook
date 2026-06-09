@@ -41,7 +41,7 @@ Litehook works by scraping public telegram channels at a set interval, which doe
 
 - [Rust](https://rust-lang.org/tools/install/) version 1.93.0 or higher
 - [Cargo](https://doc.rust-lang.org/cargo/getting-started/installation.html) version 1.93.0 or higher
-- [OpenSSL](https://www.openssl.org/) required for TDLib
+- **Libraries**: libssl3, libstdc++6, libc++1, glibc >= 2.38
 
 > [!TIP]
 > You can install Rust and Cargo by using [rustup](https://rustup.rs/).
