@@ -1,6 +1,6 @@
 services:
   litehook:
-    image: kitfc/litehook:latest
+    image: ghcr.io/tensake/litehook:latest
     container_name: litehook
     ports:
       # Or set your own port that you specified in PORT
