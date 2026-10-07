@@ -31,8 +31,50 @@ impl TelegramScraper {
     }
 
     pub async fn run(&self) -> anyhow::Result<()> {
+        let mut failures: u32 = 0;
+
         loop {
             let channel_url = self.cfg.read().await.channel_url.clone();
+
+            match self.poll(&channel_url).await {
+                Ok(()) => {
+                    if failures > 0 {
+                        tracing::info!(
+                            "listener {} recovered after {} consecutive failures",
+                            self.cfg.read().await.id,
+                            failures
+                        );
+                    }
+                    failures = 0;
+                }
+                Err(e) => {
+                    failures += 1;
+                    if failures == 1 {
+                        tracing::warn!("poll failed for {}: {e}", self.cfg.read().await.id);
+                    }
+
+                    // Refresh the client for the next attempt.
+                    match create_client().await {
+                        Ok(client) => *self.client.write().await = client,
+                        Err(e) => tracing::warn!("failed to refresh client: {e}"),
+                    }
+                }
+            }
+
+            // Back off exponentially
+            let interval: u32 = self
+                .cfg
+                .read()
+                .await
+                .poll_interval
+                .try_into()
+                .unwrap_or(600)
+                .max(1);
+            let delay = if failures == 0 {
+                interval
+            } else {
+                (2u32).saturating_pow(failures.min(10)).min(interval).max(1)
+            };
 
             tokio::select! {
                 // Shutdown handler
@@ -40,8 +82,7 @@ impl TelegramScraper {
                     self.stop().await?;
                     return Ok(());
                 }
-
-                res = self.poll_cycle(&channel_url) => { res? }
+                _ = sleep(Duration::from_secs(delay.into())) => {}
             }
         }
     }
@@ -50,21 +91,6 @@ impl TelegramScraper {
         let id = self.cfg.read().await.id.clone();
         tracing::info!("stopping listener with id {}", id);
         self.shutdown.cancel();
-        Ok(())
-    }
-
-    /// Poll URL with sleep
-    async fn poll_cycle(&self, url: &str) -> anyhow::Result<()> {
-        let interval = self.cfg.read().await.poll_interval;
-        match self.poll(url).await {
-            Ok(_) => {}
-            Err(e) => {
-                tracing::warn!("poll failed, retrying: {e}");
-                *self.client.write().await = create_client().await?;
-                self.poll(url).await?;
-            }
-        }
-        sleep(Duration::from_secs(interval.try_into().unwrap_or(600))).await;
         Ok(())
     }
 

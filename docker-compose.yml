@@ -1,12 +1,11 @@
 services:
   litehook:
-    image: ghcr.io/tensake/litehook:latest
-    container_name: litehook
+    build: .
+    container_name: litehook-dev
     ports:
-      # Or set your own port that you specified in PORT
       - "4101:4101"
+    environment:
+         - WEBHOOK_SECRET=put_something_random_here
     volumes:
       - ./data:/data:rw
-    env_file:
-      - .env
     restart: unless-stopped

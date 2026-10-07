@@ -26,11 +26,15 @@ pub struct EventHandler {
 
 impl EventHandler {
     pub fn new(rx: mpsc::Receiver<Event>, db: Db, ntf: NtfMap) -> Self {
+        let client = Client::builder()
+            .timeout(Duration::from_secs(30))
+            .build()
+            .expect("failed to build webhook client");
         Self {
             rx,
             db,
             ntf,
-            client: Client::new(),
+            client,
             shutdown: CancellationToken::new(),
         }
     }

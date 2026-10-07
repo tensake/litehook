@@ -19,12 +19,12 @@ pub struct PostReaction {
 #[derive(FromRow)]
 pub struct PostRow {
     pub id: String,
-    pub author: String,
-    pub text: String,
+    pub author: Option<String>,
+    pub text: Option<String>,
     pub media: Json<Option<Vec<String>>>,
     pub reactions: Json<Option<Vec<PostReaction>>>,
-    pub views: String,
-    pub date: String,
+    pub views: Option<String>,
+    pub date: Option<String>,
 }
 
 /// Post
@@ -94,12 +94,12 @@ impl From<PostRow> for Post {
     fn from(row: PostRow) -> Self {
         Self {
             id: row.id,
-            author: Some(row.author),
-            text: Some(row.text),
+            author: row.author,
+            text: row.text,
             media: row.media.0,
             reactions: row.reactions.0,
-            views: Some(row.views),
-            date: Some(row.date),
+            views: row.views,
+            date: row.date,
         }
     }
 }

@@ -31,7 +31,7 @@ impl Db {
         }
 
         // Configure connection pool
-        let (url, conns) = if path == "memory" {
+        let (url, conns) = if path == ":memory:" {
             (":memory:".to_string(), 1)
         } else {
             (format!("sqlite://{}", path), 32)
