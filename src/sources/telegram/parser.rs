@@ -20,7 +20,7 @@ static AUTHOR_SEL: Lazy<Selector> = Lazy::new(|| {
     Selector::parse("div.tgme_widget_message_author a.tgme_widget_message_owner_name span").unwrap()
 });
 static TEXT_SEL: Lazy<Selector> =
-    Lazy::new(|| Selector::parse("div.tgme_widget_message_text").unwrap());
+    Lazy::new(|| Selector::parse("div.tgme_widget_message_text.js-message_text").unwrap());
 static MEDIA_SEL: Lazy<Selector> =
     Lazy::new(|| Selector::parse("a.tgme_widget_message_photo_wrap").unwrap());
 static REACTIONS_SEL: Lazy<Selector> =
